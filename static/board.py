@@ -1,5 +1,6 @@
 import random
 from static.tile import Tile
+import pdb
 
 class Board:
 
@@ -24,6 +25,23 @@ class Board:
             row = self.tiles[i]
             for j in range(self.col):
                 row.append(Tile((i,j)))
+    
+    def create_neigbors(self):
+        for i in range(self.row):
+            for j in range(self.col):
+                current_tile = self.tiles[i][j]
+                above_position = (i - 1, j)
+                below_position = (i + 1, j)
+                right_position = (i, j + 1)
+                left_position = (i, j - 1)
+                positions = [above_position, below_position, right_position, left_position]
+                for position in positions:
+                    if (position[0] in range(0, self.row)) and (position[1] in range(0, self.col)):
+                        target_tile = self.tiles[position[0]][position[1]]
+                        if current_tile not in target_tile.neighbors:
+                            current_tile.neighbors.append(target_tile)
+                            target_tile.neighbors.append(current_tile)
+                            
 
 
 
