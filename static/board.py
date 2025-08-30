@@ -14,10 +14,10 @@ class Board:
         self.assign_start_end()
     
     def assign_start_end(self):
-        self.start = (random.randint(0, self.rows - 1,), random.randint(0, self.cols - 1))
-        self.end = (random.randint(0, self.rows - 1,), random.randint(0, self.cols - 1))
+        self.start = (random.choice(range(self.rows)), random.choice(range(self.cols)))
+        self.end = (random.choice(range(self.rows)), random.choice(range(self.cols)))
         while (self.end == self.start):
-            self.end = (random.randint(0, self.rows - 1,), random.randint(0, self.cols - 1))
+            self.end = (random.choice(range(self.rows)), random.choice(range(self.cols)))
     
     def create_tiles(self):
         for i in range(self.rows):
@@ -36,7 +36,7 @@ class Board:
                 left_position = (i, j - 1)
                 positions = [above_position, below_position, right_position, left_position]
                 for position in positions:
-                    if (position[0] in range(0, self.rows)) and (position[1] in range(0, self.cols)):
+                    if (position[0] in range(self.rows)) and (position[1] in range(self.cols)):
                         target_tile = self.tiles[position[0]][position[1]]
                         if current_tile not in target_tile.neighbors:
                             current_tile.neighbors.append(target_tile)
