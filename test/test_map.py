@@ -6,25 +6,25 @@ class TestMap(unittest.TestCase):
 
     def test_start_in_range(self):
         test_board = Board(5, 4, 1.0)
-        self.assertTrue(test_board.start[0] in range(0, test_board.row) and test_board.start[1] in range(0, test_board.col))
+        self.assertTrue(test_board.start[0] in range(0, test_board.rows) and test_board.start[1] in range(0, test_board.cols))
     
     def test_end_in_range(self):
         test_board = Board(5, 4, 1.0)
-        self.assertTrue(test_board.end[0] in range(0, test_board.row) and test_board.end[1] in range(0, test_board.col))
+        self.assertTrue(test_board.end[0] in range(0, test_board.rows) and test_board.end[1] in range(0, test_board.cols))
     
     def test_create_tiles(self):
-        row, col = (5, 3)
-        test_board = Board(row, col, 1.0)
+        rows, cols = (5, 3)
+        test_board = Board(rows, cols, 1.0)
         test_board.create_tiles()
-        for i in range(row):
-            for j in range(col):
+        for i in range(rows):
+            for j in range(cols):
                 current_tile = test_board.tiles[i][j]
                 self.assertEqual(current_tile.position, (i, j))
                 self.assertIsInstance(current_tile, Tile)
     
     def test_create_neigbors_2x2(self):
-        row, col = (2, 2)
-        test_board = Board(row, col, 1.0)
+        rows, cols = (2, 2)
+        test_board = Board(rows, cols, 1.0)
         test_board.create_tiles()
         test_board.create_neigbors()
 
@@ -39,8 +39,8 @@ class TestMap(unittest.TestCase):
         self.assertCountEqual(bottom_right.neighbors, [top_right, bottom_left])
     
     def test_create_neigbors_3x3(self):
-        row, col = (3, 3)
-        test_board = Board(row, col, 1.0)
+        rows, cols = (3, 3)
+        test_board = Board(rows, cols, 1.0)
         test_board.create_tiles()
         test_board.create_neigbors()
 
