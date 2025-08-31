@@ -1,16 +1,18 @@
 import unittest
 from static.board import Board
 from static.tile import Tile
+from static.coordinate import Coordinate
+
 
 class Test(unittest.TestCase):
 
     def test_start_in_range(self):
         test_board = Board(5, 4, 1.0)
-        self.assertTrue(test_board.start[0] in range(0, test_board.rows) and test_board.start[1] in range(0, test_board.cols))
+        self.assertTrue(test_board.start.row in range(test_board.rows) and test_board.start.col in range(test_board.cols))
     
     def test_end_in_range(self):
         test_board = Board(5, 4, 1.0)
-        self.assertTrue(test_board.end[0] in range(0, test_board.rows) and test_board.end[1] in range(0, test_board.cols))
+        self.assertTrue(test_board.end.row in range(test_board.rows) and test_board.end.col in range(test_board.cols))
     
     def test_fill_positions(self):
         rows, cols = (5, 3)
@@ -19,7 +21,7 @@ class Test(unittest.TestCase):
         for i in range(rows):
             for j in range(cols):
                 current_tile = test_board.positions[i][j]
-                self.assertEqual(current_tile.position, (i, j))
+                self.assertEqual(current_tile.position, Coordinate((i,j)))
                 self.assertIsInstance(current_tile, Tile)
     
     def test_create_neigbors_2x2(self):
