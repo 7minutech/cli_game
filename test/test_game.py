@@ -1,4 +1,6 @@
 import unittest
+from io import StringIO
+from unittest.mock import patch
 from static.game import Game
 from static.board import Board
 from active.player import Player
@@ -40,3 +42,38 @@ class TestGame(unittest.TestCase):
         my_game.place_player(start)
         my_game.move(Key.down)
         self.assertTrue(my_game.board.positions[2][1].owner == my_game.player)
+    
+    def test_valid_move_false(self):
+        start = Coordinate((0,2))
+        my_game = Game(Board(3, 3, 1.0), Player())
+        my_game.place_player(start)
+        self.assertFalse(my_game.valid_move(Key.right))
+    
+    def test_valid_move_true(self):
+        start = Coordinate((0,2))
+        my_game = Game(Board(3, 3, 1.0), Player())
+        my_game.place_player(start)
+        self.assertTrue(my_game.valid_move(Key.left))
+    
+    def test_move_checked_invalid(self):
+        start = Coordinate((0,2))
+        my_game = Game(Board(3, 3, 1.0), Player())
+        my_game.place_player(start)
+        invalid_message = "\nInvalid move\n"
+        
+        with patch("sys.stdout", new_callable=StringIO) as mock_stdout:
+            my_game.move_checked(Key.right)
+            output = mock_stdout.getvalue()
+            self.assertEqual(output, invalid_message)
+    
+    def test_move_checked_valid(self):
+        start = Coordinate((0,2))
+        my_game = Game(Board(3, 3, 1.0), Player())
+        my_game.place_player(start)
+        invalid_message = "\nInvalid move\n"
+        
+        with patch("sys.stdout", new_callable=StringIO) as mock_stdout:
+            my_game.move_checked(Key.down)
+            output = mock_stdout.getvalue()
+            self.assertNotEqual(output, invalid_message)
+

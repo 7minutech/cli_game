@@ -37,7 +37,32 @@ class Game:
         
         self.board.display()
 
+    def valid_move(self, key):
+        new_coord = None
+        if key == Key.right:
+            new_coord = self.player.coordinate + RIGHT
+        
+        if key == Key.left:
+            new_coord = self.player.coordinate + LEFT
+
+        if key == Key.up:
+            new_coord = self.player.coordinate + UP
+
+        if key == Key.down:
+            new_coord = self.player.coordinate + DOWN
+
+        if key == Key.esc:
+            return True
+        
+        return (new_coord.row in range(self.board.rows) and new_coord.col in range(self.board.cols))
+
+    def move_checked(self, key):
+        if self.valid_move(key):
+            self.move(key)   
+        else:
+            print("\nInvalid move")
+
     def play_game(self):
         self.board.display()
-        with Listener(on_press = self.move) as listener:
+        with Listener(on_press = self.move_checked) as listener:
             listener.join()
