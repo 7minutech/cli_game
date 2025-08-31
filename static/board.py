@@ -10,6 +10,7 @@ class Board:
         self.chaos = chaos
         self.start = None
         self.end = None
+        self.positions = []
         self.tiles = []
         self.assign_start_end()
     
@@ -21,21 +22,21 @@ class Board:
     
     def create_tiles(self):
         for i in range(self.rows):
-            self.tiles.append([])
-            rows = self.tiles[i]
+            self.positions.append([])
+            rows = self.positions[i]
             for j in range(self.cols):
-                rows.append(Tile((i,j)))
+                tile = Tile(position=(i,j))
+                rows.append(tile)
+                self.tiles.append(tile)
     
     def create_neigbors(self):
-        for i in range(self.rows):
-            for j in range(self.cols):
-                current_tile = self.tiles[i][j]
-                for position in self.possible_positions(current_tile):
-                    if self.valid_position(position):
-                        target_tile = self.tiles[position[0]][position[1]]
-                        if current_tile not in target_tile.neighbors:
-                            current_tile.neighbors.append(target_tile)
-                            target_tile.neighbors.append(current_tile)
+        for tile in self.tiles:
+            for position in self.possible_positions(tile):
+                if self.valid_position(position):
+                    target_tile = self.positions[position[0]][position[1]]
+                    if tile not in target_tile.neighbors:
+                        tile.neighbors.append(target_tile)
+                        target_tile.neighbors.append(tile)
     
     def possible_positions(self, tile):
         row = tile.position[0]

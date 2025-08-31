@@ -18,7 +18,7 @@ class TestMap(unittest.TestCase):
         test_board.create_tiles()
         for i in range(rows):
             for j in range(cols):
-                current_tile = test_board.tiles[i][j]
+                current_tile = test_board.positions[i][j]
                 self.assertEqual(current_tile.position, (i, j))
                 self.assertIsInstance(current_tile, Tile)
     
@@ -28,10 +28,10 @@ class TestMap(unittest.TestCase):
         test_board.create_tiles()
         test_board.create_neigbors()
 
-        top_left = test_board.tiles[0][0]
-        bottom_left = test_board.tiles[1][0]
-        top_right = test_board.tiles[0][1]
-        bottom_right = test_board.tiles[1][1]
+        top_left = test_board.positions[0][0]
+        bottom_left = test_board.positions[1][0]
+        top_right = test_board.positions[0][1]
+        bottom_right = test_board.positions[1][1]
         
         self.assertCountEqual(top_left.neighbors, [bottom_left, top_right])
         self.assertCountEqual(bottom_left.neighbors, [top_left, bottom_right])
@@ -44,11 +44,10 @@ class TestMap(unittest.TestCase):
         test_board.create_tiles()
         test_board.create_neigbors()
 
-        top_left, top_mid, top_right = (test_board.tiles[0][0], test_board.tiles[0][1], test_board.tiles[0][2])
-        mid_left, mid_mid, mid_right = (test_board.tiles[1][0], test_board.tiles[1][1], test_board.tiles[1][2])
-        bottom_left, bottom_mid, bottom_right = (test_board.tiles[2][0], test_board.tiles[2][1], test_board.tiles[2][2])
+        top_left, top_mid, top_right = (test_board.positions[0][0], test_board.positions[0][1], test_board.positions[0][2])
+        mid_left, mid_mid, mid_right = (test_board.positions[1][0], test_board.positions[1][1], test_board.positions[1][2])
+        bottom_left, bottom_mid, bottom_right = (test_board.positions[2][0], test_board.positions[2][1], test_board.positions[2][2])
 
-        print(top_left.neighbors)
         self.assertCountEqual(top_left.neighbors, [top_mid, mid_left])
         self.assertCountEqual(top_mid.neighbors, [top_left, top_right, mid_mid])
         self.assertCountEqual(top_right.neighbors, [top_mid, mid_right])
