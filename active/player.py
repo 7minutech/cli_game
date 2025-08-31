@@ -1,6 +1,7 @@
+
 class Player:
 
-    def __init__(self, position=None):
-        self.position = position
+    def __init__(self, coordinate=None):
+        self.coordinate = coordinate
         pass
     

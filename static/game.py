@@ -13,30 +13,27 @@ class Game:
         self.place_player(self.board.start)
     
     def place_player(self, position):
-        if self.player.position != None:
-            self.board.positions[self.player.position.row][self.player.position.col].owner = None
+        if self.player.coordinate != None:
+            self.board.positions[self.player.coordinate.row][self.player.coordinate.col].owner = None
         self.board.positions[position.row][position.col].owner = self.player
-        self.player.position = position
+        self.player.coordinate = position
     
     def move(self, key):
         if key == Key.right:
-            self.place_player(self.player.position + RIGHT)
+            self.place_player(self.player.coordinate + RIGHT)
         
         if key == Key.left:
-            self.place_player(self.player.position + LEFT)
+            self.place_player(self.player.coordinate + LEFT)
         
         if key == Key.up:
-            self.place_player(self.player.position + UP)
+            self.place_player(self.player.coordinate + UP)
         
         if key == Key.down:
-            self.place_player(self.player.position + DOWN)
+            self.place_player(self.player.coordinate + DOWN)
         
         if key == Key.esc:
             quit()
 
-
     def play_game(self):
         with Listener(on_press = self.move) as listener:
             listener.join()
-
-    
