@@ -30,18 +30,20 @@ class Board:
         for i in range(self.rows):
             for j in range(self.cols):
                 current_tile = self.tiles[i][j]
-                above_position = (i - 1, j)
-                below_position = (i + 1, j)
-                right_position = (i, j + 1)
-                left_position = (i, j - 1)
-                positions = [above_position, below_position, right_position, left_position]
-                for position in positions:
-                    if (position[0] in range(self.rows)) and (position[1] in range(self.cols)):
+                for position in self.possible_positions(current_tile):
+                    if self.valid_position(position):
                         target_tile = self.tiles[position[0]][position[1]]
                         if current_tile not in target_tile.neighbors:
                             current_tile.neighbors.append(target_tile)
                             target_tile.neighbors.append(current_tile)
-                            
+    
+    def possible_positions(self, tile):
+        row = tile.position[0]
+        col = tile.position[1]
+        return [(row + 1, col), (row - 1, col), (row, col + 1), (row, col - 1)]
+
+    def valid_position(self, position): 
+        return (position[0] in range(self.rows) and position[1] in range(self.cols))                      
 
 
 
