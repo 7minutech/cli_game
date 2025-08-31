@@ -25,8 +25,6 @@ class Test(unittest.TestCase):
     def test_create_neigbors_2x2(self):
         rows, cols = (2, 2)
         test_board = Board(rows, cols, 1.0)
-        test_board.fill_positions()
-        test_board.create_neigbors()
 
         top_left = test_board.positions[0][0]
         bottom_left = test_board.positions[1][0]
@@ -41,8 +39,6 @@ class Test(unittest.TestCase):
     def test_create_neigbors_3x3(self):
         rows, cols = (3, 3)
         test_board = Board(rows, cols, 1.0)
-        test_board.fill_positions()
-        test_board.create_neigbors()
 
         top_left, top_mid, top_right = (test_board.positions[0][0], test_board.positions[0][1], test_board.positions[0][2])
         mid_left, mid_mid, mid_right = (test_board.positions[1][0], test_board.positions[1][1], test_board.positions[1][2])

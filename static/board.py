@@ -13,6 +13,8 @@ class Board:
         self.positions = []
         self.tiles = []
         self.assign_start_end()
+        self.fill_positions()
+        self.create_neigbors()
     
     def assign_start_end(self):
         self.start = (random.choice(range(self.rows)), random.choice(range(self.cols)))
