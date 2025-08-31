@@ -2,8 +2,8 @@ from active.player import Player
 
 class Tile:
     
-    def __init__(self, position, neighbors=None, owner=None):
-        self.position = position
+    def __init__(self, coordinate, neighbors=None, owner=None):
+        self.coordinate = coordinate
         if neighbors is None:
             self.neighbors = []
         else:
@@ -17,4 +17,4 @@ class Tile:
             return(f"\u2302")
     
     def __repr__(self):
-        return(f"Tile(position:{self.position}, owner:{self.owner})")
+        return(f"Tile(coordinate:{self.coordinate}, owner:{self.owner})")

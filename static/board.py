@@ -29,7 +29,7 @@ class Board:
             self.positions.append([])
             rows = self.positions[i]
             for j in range(self.cols):
-                tile = Tile(position=Coordinate((i,j)))
+                tile = Tile(Coordinate((i,j)))
                 rows.append(tile)
                 self.tiles.append(tile)
     
@@ -43,7 +43,7 @@ class Board:
                         target_tile.neighbors.append(tile)
     
     def possible_positions(self, tile):
-        return [tile.position + UP, tile.position + DOWN, tile.position + RIGHT, tile.position + LEFT]
+        return [tile.coordinate + UP, tile.coordinate + DOWN, tile.coordinate + RIGHT, tile.coordinate + LEFT]
 
     def valid_position(self, position): 
         return (position.row in range(self.rows) and position.col in range(self.cols))  

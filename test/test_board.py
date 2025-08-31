@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
         for i in range(rows):
             for j in range(cols):
                 current_tile = test_board.positions[i][j]
-                self.assertEqual(current_tile.position, Coordinate((i,j)))
+                self.assertEqual(current_tile.coordinate, Coordinate((i,j)))
                 self.assertIsInstance(current_tile, Tile)
     
     def test_create_neigbors_2x2(self):
