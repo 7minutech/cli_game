@@ -19,6 +19,7 @@ class Game:
         self.player.coordinate = position
     
     def move(self, key):
+
         if key == Key.right:
             self.place_player(self.player.coordinate + RIGHT)
         
@@ -33,7 +34,10 @@ class Game:
         
         if key == Key.esc:
             quit()
+        
+        self.board.display()
 
     def play_game(self):
+        self.board.display()
         with Listener(on_press = self.move) as listener:
             listener.join()
