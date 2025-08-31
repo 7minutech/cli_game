@@ -2,7 +2,7 @@ import unittest
 from static.board import Board
 from static.tile import Tile
 
-class TestBoard(unittest.TestCase):
+class Test(unittest.TestCase):
 
     def test_start_in_range(self):
         test_board = Board(5, 4, 1.0)
@@ -60,11 +60,18 @@ class TestBoard(unittest.TestCase):
         self.assertCountEqual(bottom_mid.neighbors, [mid_mid, bottom_left, bottom_right])
         self.assertCountEqual(bottom_right.neighbors, [mid_right, bottom_mid])
     
-    def test_display(self):
+    def test_display_5x5(self):
         board = Board(5,5, 1.0)
         board.fill_positions()
-        board.create_neigbors()
-        board.display()
+        expected = '\n⌌ ⎻ ⎻ ⎻ ⎻ ⎻ ⌍\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n⌎ ⎻ ⎻ ⎻ ⎻ ⎻ ⌏'
+        self.assertEqual(board.format_board(), expected)
+    
+    def test_display_3x4(self):
+        board = Board(3,4, 1.0)
+        board.fill_positions()
+        expected = '\n⌌ ⎻ ⎻ ⎻ ⎻ ⌍\n| ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ |\n⌎ ⎻ ⎻ ⎻ ⎻ ⌏'
+        self.assertEqual(board.format_board(), expected)
+        
 
 
 

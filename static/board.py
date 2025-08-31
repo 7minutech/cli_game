@@ -44,22 +44,22 @@ class Board:
         return [(row + 1, col), (row - 1, col), (row, col + 1), (row, col - 1)]
 
     def valid_position(self, position): 
-        return (position[0] in range(self.rows) and position[1] in range(self.cols))            
+        return (position[0] in range(self.rows) and position[1] in range(self.cols))  
 
-    def display(self):
+    def format_board(self):
+        display_str = "\n\u230C " + " ".join(("\u23BB" * self.cols)) + " \u230D"
         for row in range(self.rows):
-            if row == 0:
-                print()
-
-                print("\u230C " + " ".join(("\u23BB" * self.cols)) + " \u230D")
-            else:
-                print()
+            display_str += "\n"
             row_arr = ["|"]
             for col in range(self.cols):
                 row_arr.append(str(self.positions[row][col]))
             row_arr.append("|")
-            print(" ".join(row_arr))
-        print("\u230E " + " ".join(("\u23BB" * self.cols)) + " \u230F")
+            display_str += (" ".join(row_arr))
+        display_str += ("\n\u230E " + " ".join(("\u23BB" * self.cols)) + " \u230F")
+        return (display_str)     
+
+    def display(self):
+        print(self.format_board())
 
 
 
