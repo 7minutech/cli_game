@@ -2,7 +2,7 @@ import unittest
 from static.board import Board
 from static.tile import Tile
 
-class TestMap(unittest.TestCase):
+class TestBoard(unittest.TestCase):
 
     def test_start_in_range(self):
         test_board = Board(5, 4, 1.0)
@@ -59,6 +59,12 @@ class TestMap(unittest.TestCase):
         self.assertCountEqual(bottom_left.neighbors, [mid_left, bottom_mid])
         self.assertCountEqual(bottom_mid.neighbors, [mid_mid, bottom_left, bottom_right])
         self.assertCountEqual(bottom_right.neighbors, [mid_right, bottom_mid])
+    
+    def test_display(self):
+        board = Board(5,5, 1.0)
+        board.fill_positions()
+        board.create_neigbors()
+        board.display()
 
 
 

@@ -9,7 +9,8 @@ class Tile:
         self.owner = owner
     
     def __str__(self):
-        return(f"Position: {self.position}, Owner: {self.owner}")
+        if self.owner is None:
+            return(f"\u2395")
     
     def __repr__(self):
         return(f"Tile(position:{self.position}, owner:{self.owner})")
