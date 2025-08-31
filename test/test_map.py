@@ -12,10 +12,10 @@ class TestMap(unittest.TestCase):
         test_board = Board(5, 4, 1.0)
         self.assertTrue(test_board.end[0] in range(0, test_board.rows) and test_board.end[1] in range(0, test_board.cols))
     
-    def test_create_tiles(self):
+    def test_fill_positions(self):
         rows, cols = (5, 3)
         test_board = Board(rows, cols, 1.0)
-        test_board.create_tiles()
+        test_board.fill_positions()
         for i in range(rows):
             for j in range(cols):
                 current_tile = test_board.positions[i][j]
@@ -25,7 +25,7 @@ class TestMap(unittest.TestCase):
     def test_create_neigbors_2x2(self):
         rows, cols = (2, 2)
         test_board = Board(rows, cols, 1.0)
-        test_board.create_tiles()
+        test_board.fill_positions()
         test_board.create_neigbors()
 
         top_left = test_board.positions[0][0]
@@ -41,7 +41,7 @@ class TestMap(unittest.TestCase):
     def test_create_neigbors_3x3(self):
         rows, cols = (3, 3)
         test_board = Board(rows, cols, 1.0)
-        test_board.create_tiles()
+        test_board.fill_positions()
         test_board.create_neigbors()
 
         top_left, top_mid, top_right = (test_board.positions[0][0], test_board.positions[0][1], test_board.positions[0][2])

@@ -20,7 +20,7 @@ class Board:
         while (self.end == self.start):
             self.end = (random.choice(range(self.rows)), random.choice(range(self.cols)))
     
-    def create_tiles(self):
+    def fill_positions(self):
         for i in range(self.rows):
             self.positions.append([])
             rows = self.positions[i]
