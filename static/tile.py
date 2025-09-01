@@ -22,7 +22,6 @@ class Tile:
 
     def remove_neighbor(self, target):
         if target in self.neighbors:
-            taget_index = None
             for i in range(len(self.neighbors)):
                 if self.neighbors[i] == target:
                     target_index = i

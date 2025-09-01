@@ -68,14 +68,21 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(board.format_board(), expected)
 
     def test_path_from_start_exists_false(self):
+        board = Board(3,3, 1.0)
+        board.start = Coordinate((2,2))
+        target_tile = board.positions[0][0]
+        target_tile.remove_neighbors()
+        self.assertFalse(board.path_from_start_exists(target_tile))
         pass
 
-    def test_path_from_start_exists_true(self):
-        pass
-        
-
-
-
-
-
-        
+    # def test_path_from_start_exists_true(self):
+    #     board = Board(3,3, 1.0)
+    #     board.start = Coordinate((2,2))
+    #     target_tile = board.positions[0][0]
+    #     self.assertTrue(board.path_from_start_exists(target_tile))    
+    
+    # def test_path_from_start_exists_true_complex(self):
+    #     board = Board(3,3, 1.0)
+    #     board.start = Coordinate((2,2))
+    #     target_tile = board.positions[0][0]
+    #     self.assertTrue(board.path_from_start_exists(target_tile))   
