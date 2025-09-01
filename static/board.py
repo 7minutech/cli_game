@@ -58,6 +58,7 @@ class Board:
             row_arr.append("|")
             display_str += (" ".join(row_arr))
         display_str += ("\n\u230E " + " ".join(("\u23BB" * self.cols)) + " \u230F")
+        display_str = display_str.replace("None", " ")
         return (display_str)     
 
     def display(self):
@@ -67,9 +68,21 @@ class Board:
         target.remove_neighbors()
         self.positions[target.coordinate.row][target.coordinate.col] = None
 
-    def path_from_start_exists(self, target):
-        pass
-
-
+    def path_from_start_exists(self, target, queue=None, visited=None):
+        if queue is None and visited is None:
+            start = self.positions[self.start.row][self.start.col]
+            queue = [start]
+            visited = []
+        current_tile = queue[0]
+        if current_tile == target:
+            return True
+        for neighbor in current_tile.neighbors:
+            if neighbor not in visited and neighbor not in queue:
+                queue.append(neighbor)
+        visited.append(queue.pop(0))
+        if len(queue) == 0:
+            return False
+        return self.path_from_start_exists(target, queue, visited)
+        
 
 

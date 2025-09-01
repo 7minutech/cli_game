@@ -83,16 +83,43 @@ class TestBoard(unittest.TestCase):
 
     def test_path_from_start_exists_true(self):
         board = Board(3,3, 1.0)
-        board.start = Coordinate((2,2))
+        board.start = Coordinate((2,1))
         target_tile = board.positions[0][0]
         self.assertTrue(board.path_from_start_exists(target_tile))    
     
-    def test_path_from_start_exists_true_complex(self):
+    def test_path_from_start_exists_true_some_removal(self):
         board = Board(3,3, 1.0)
         board.start = Coordinate((0,0))
         board.end = Coordinate((2,0))
         target_tile_1, target_tile_2 = (board.positions[1][0], board.positions[1][1])
         board.remove_tile(target_tile_1)
         board.remove_tile(target_tile_2)
+        target_tile = board.positions[board.end.row][board.end.col] 
+        self.assertTrue(board.path_from_start_exists(target_tile))   
+
+    def test_path_from_start_exists_false_complex(self):
+        board = Board(5,5, 1.0)
+        board.start = Coordinate((0,0))
+        board.end = Coordinate((4,4))
+        # wall b/w start and end
+        for row in range(5):
+            board.remove_tile(board.positions[row][3])
+        target_tile = board.positions[board.end.row][board.end.col] 
+        self.assertFalse(board.path_from_start_exists(target_tile))   
+    
+    def test_path_from_start_exists_true_complex(self):
+        board = Board(5,5, 1.0)
+        board.start = Coordinate((0,0))
+        board.end = Coordinate((4,4))
+        tiles_to_remove = [
+            board.positions[0][3],
+            board.positions[1][1],
+            board.positions[2][2],
+            board.positions[3][4],
+        ]
+
+        for tile in tiles_to_remove:
+            board.remove_tile(tile)
+
         target_tile = board.positions[board.end.row][board.end.col] 
         self.assertTrue(board.path_from_start_exists(target_tile))   
