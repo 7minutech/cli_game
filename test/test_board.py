@@ -8,11 +8,11 @@ class TestBoard(unittest.TestCase):
 
     def test_start_in_range(self):
         test_board = Board(5, 4, 1.0)
-        self.assertTrue(test_board.start.coordinate.row in range(test_board.rows) and test_board.start.coordinate.col in range(test_board.cols))
+        self.assertTrue(test_board.start.coord.row in range(test_board.rows) and test_board.start.coord.col in range(test_board.cols))
     
     def test_end_in_range(self):
         test_board = Board(5, 4, 1.0)
-        self.assertTrue(test_board.end.coordinate.row in range(test_board.rows) and test_board.end.coordinate.col in range(test_board.cols))
+        self.assertTrue(test_board.end.coord.row in range(test_board.rows) and test_board.end.coord.col in range(test_board.cols))
     
     def test_fill_positions(self):
         rows, cols = (5, 3)
@@ -20,7 +20,7 @@ class TestBoard(unittest.TestCase):
         for i in range(rows):
             for j in range(cols):
                 current_tile = test_board.positions[i][j]
-                self.assertEqual(current_tile.coordinate, Coordinate((i,j)))
+                self.assertEqual(current_tile.coord, Coordinate((i,j)))
                 self.assertIsInstance(current_tile, Tile)
     
     def test_create_neigbors_2x2(self):

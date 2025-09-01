@@ -10,27 +10,27 @@ class Game:
         self.board = board
         self.player = player
         self.game_over = False
-        self.place_player(self.board.start.coordinate)
+        self.place_player(self.board.start.coord)
     
     def place_player(self, position):
-        if self.player.coordinate != None:
-            self.board.positions[self.player.coordinate.row][self.player.coordinate.col].owner = None
+        if self.player.coord != None:
+            self.board.positions[self.player.coord.row][self.player.coord.col].owner = None
         self.board.positions[position.row][position.col].owner = self.player
-        self.player.coordinate = position
+        self.player.coord = position
     
     def move(self, key):
 
         if key == Key.right:
-            self.place_player(self.player.coordinate + RIGHT)
+            self.place_player(self.player.coord + RIGHT)
         
         if key == Key.left:
-            self.place_player(self.player.coordinate + LEFT)
+            self.place_player(self.player.coord + LEFT)
         
         if key == Key.up:
-            self.place_player(self.player.coordinate + UP)
+            self.place_player(self.player.coord + UP)
         
         if key == Key.down:
-            self.place_player(self.player.coordinate + DOWN)
+            self.place_player(self.player.coord + DOWN)
         
         if key == Key.esc:
             quit()
@@ -40,16 +40,16 @@ class Game:
     def valid_move(self, key):
         new_coord = None
         if key == Key.right:
-            new_coord = self.player.coordinate + RIGHT
+            new_coord = self.player.coord + RIGHT
         
         if key == Key.left:
-            new_coord = self.player.coordinate + LEFT
+            new_coord = self.player.coord + LEFT
 
         if key == Key.up:
-            new_coord = self.player.coordinate + UP
+            new_coord = self.player.coord + UP
 
         if key == Key.down:
-            new_coord = self.player.coordinate + DOWN
+            new_coord = self.player.coord + DOWN
 
         if key == Key.esc:
             return True

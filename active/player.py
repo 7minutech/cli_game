@@ -1,7 +1,7 @@
 
 class Player:
 
-    def __init__(self, coordinate=None):
-        self.coordinate = coordinate
+    def __init__(self, coord=None):
+        self.coord = coord
         pass
     

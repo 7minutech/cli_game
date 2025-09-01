@@ -43,7 +43,7 @@ class Board:
                         target_tile.neighbors.append(tile)
     
     def possible_positions(self, tile):
-        return [tile.coordinate + UP, tile.coordinate + DOWN, tile.coordinate + RIGHT, tile.coordinate + LEFT]
+        return [tile.coord + UP, tile.coord + DOWN, tile.coord + RIGHT, tile.coord + LEFT]
 
     def valid_position(self, position): 
         return (position.row in range(self.rows) and position.col in range(self.cols))  
@@ -66,7 +66,7 @@ class Board:
 
     def remove_tile(self, target):
         target.remove_neighbors()
-        self.positions[target.coordinate.row][target.coordinate.col] = None
+        self.positions[target.coord.row][target.coord.col] = None
 
     def path_from_start_exists(self, target, queue=None, visited=None):
         if queue is None and visited is None:

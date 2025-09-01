@@ -3,8 +3,8 @@ import pdb
 
 class Tile:
     
-    def __init__(self, coordinate, neighbors=None, owner=None):
-        self.coordinate = coordinate
+    def __init__(self, coord, neighbors=None, owner=None):
+        self.coord = coord
         if neighbors is None:
             self.neighbors = []
         else:
