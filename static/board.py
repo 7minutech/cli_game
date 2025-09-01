@@ -63,8 +63,13 @@ class Board:
     def display(self):
         print(self.format_board())
 
+    def remove_tile(self, target):
+        target.remove_neighbors()
+        self.positions[target.coordinate.row][target.coordinate.col] = None
+
     def path_from_start_exists(self, target):
         pass
+
 
 
 

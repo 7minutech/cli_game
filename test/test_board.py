@@ -66,23 +66,33 @@ class TestBoard(unittest.TestCase):
         board = Board(3,4, 1.0)
         expected = '\n⌌ ⎻ ⎻ ⎻ ⎻ ⌍\n| ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ |\n⌎ ⎻ ⎻ ⎻ ⎻ ⌏'
         self.assertEqual(board.format_board(), expected)
+    
+    def test_remove_tile(self):
+        board = Board(3,3, 1.0)
+        target_tile_coord = Coordinate((0,0))
+        target_tile = board.positions[target_tile_coord.row][target_tile_coord.col]
+        board.remove_tile(target_tile)
+        self.assertIsNone(board.positions[target_tile_coord.row][target_tile_coord.col])
 
     def test_path_from_start_exists_false(self):
         board = Board(3,3, 1.0)
         board.start = Coordinate((2,2))
         target_tile = board.positions[0][0]
-        target_tile.remove_neighbors()
+        board.remove_tile(target_tile)
         self.assertFalse(board.path_from_start_exists(target_tile))
-        pass
 
-    # def test_path_from_start_exists_true(self):
-    #     board = Board(3,3, 1.0)
-    #     board.start = Coordinate((2,2))
-    #     target_tile = board.positions[0][0]
-    #     self.assertTrue(board.path_from_start_exists(target_tile))    
+    def test_path_from_start_exists_true(self):
+        board = Board(3,3, 1.0)
+        board.start = Coordinate((2,2))
+        target_tile = board.positions[0][0]
+        self.assertTrue(board.path_from_start_exists(target_tile))    
     
-    # def test_path_from_start_exists_true_complex(self):
-    #     board = Board(3,3, 1.0)
-    #     board.start = Coordinate((2,2))
-    #     target_tile = board.positions[0][0]
-    #     self.assertTrue(board.path_from_start_exists(target_tile))   
+    def test_path_from_start_exists_true_complex(self):
+        board = Board(3,3, 1.0)
+        board.start = Coordinate((0,0))
+        board.end = Coordinate((2,0))
+        target_tile_1, target_tile_2 = (board.positions[1][0], board.positions[1][1])
+        board.remove_tile(target_tile_1)
+        board.remove_tile(target_tile_2)
+        target_tile = board.positions[board.end.row][board.end.col] 
+        self.assertTrue(board.path_from_start_exists(target_tile))   
