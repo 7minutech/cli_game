@@ -4,7 +4,7 @@ from static.tile import Tile
 from static.coordinate import Coordinate
 
 
-class Test(unittest.TestCase):
+class TestBoard(unittest.TestCase):
 
     def test_start_in_range(self):
         test_board = Board(5, 4, 1.0)
@@ -17,7 +17,6 @@ class Test(unittest.TestCase):
     def test_fill_positions(self):
         rows, cols = (5, 3)
         test_board = Board(rows, cols, 1.0)
-        test_board.fill_positions()
         for i in range(rows):
             for j in range(cols):
                 current_tile = test_board.positions[i][j]
@@ -60,15 +59,19 @@ class Test(unittest.TestCase):
     
     def test_display_5x5(self):
         board = Board(5,5, 1.0)
-        board.fill_positions()
         expected = '\n⌌ ⎻ ⎻ ⎻ ⎻ ⎻ ⌍\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ ⎕ |\n⌎ ⎻ ⎻ ⎻ ⎻ ⎻ ⌏'
         self.assertEqual(board.format_board(), expected)
     
     def test_display_3x4(self):
         board = Board(3,4, 1.0)
-        board.fill_positions()
         expected = '\n⌌ ⎻ ⎻ ⎻ ⎻ ⌍\n| ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ |\n| ⎕ ⎕ ⎕ ⎕ |\n⌎ ⎻ ⎻ ⎻ ⎻ ⌏'
         self.assertEqual(board.format_board(), expected)
+
+    def test_path_from_start_exists_false(self):
+        pass
+
+    def test_path_from_start_exists_true(self):
+        pass
         
 
 

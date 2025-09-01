@@ -63,5 +63,8 @@ class Board:
     def display(self):
         print(self.format_board())
 
+    def path_from_start_exists(target):
+        pass
+
 
 

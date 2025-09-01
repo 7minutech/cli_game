@@ -1,4 +1,5 @@
 from active.player import Player
+import pdb
 
 class Tile:
     
@@ -18,3 +19,17 @@ class Tile:
     
     def __repr__(self):
         return(f"Tile(coordinate:{self.coordinate}, owner:{self.owner})")
+
+    def remove_neighbor(self, target):
+        if target in self.neighbors:
+            taget_index = None
+            for i in range(len(self.neighbors)):
+                if self.neighbors[i] == target:
+                    target_index = i
+            self.neighbors.pop(target_index)
+            target.remove_neighbor(self)
+        return
+    
+    def remove_neighbors(self):
+        for neighbor in self.neighbors.copy():
+            self.remove_neighbor(neighbor)
