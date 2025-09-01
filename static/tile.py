@@ -18,7 +18,7 @@ class Tile:
             return(f"\u2302")
     
     def __repr__(self):
-        return(f"Tile(coordinate:{self.coordinate}, owner:{self.owner})")
+        return(f"Tile(coordinate:{self.coord}, owner:{self.owner})")
 
     def remove_neighbor(self, target):
         if target in self.neighbors:
