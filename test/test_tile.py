@@ -49,3 +49,13 @@ class TestTile(unittest.TestCase):
             neighbor = target_tile_neighbors[i]
             self.assertNotIn(target_tile, neighbor.neighbors)
             self.assertEqual(target_tile_neighbors_count[i] - 1, len(neighbor.neighbors))
+
+    def test_reconnect_neighbors(self):
+        board = Board(3,3, 1.0)
+        target = board.positions[0][0]
+        target_neighbors = target.neighbors.copy()
+        target.remove_neighbors()
+        target.reconnect_neighbors(target_neighbors)
+        for neighbor in target_neighbors:
+            self.assertIn(target, neighbor.neighbors)
+            self.assertIn(neighbor, target.neighbors)

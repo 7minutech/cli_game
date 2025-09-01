@@ -32,3 +32,9 @@ class Tile:
     def remove_neighbors(self):
         for neighbor in self.neighbors.copy():
             self.remove_neighbor(neighbor)
+
+    
+    def reconnect_neighbors(self, neighbors):
+        for neighbor in neighbors:
+            self.neighbors.append(neighbor)
+            neighbor.neighbors.append(self)
