@@ -8,11 +8,11 @@ class TestBoard(unittest.TestCase):
 
     def test_start_in_range(self):
         test_board = Board(5, 4, 1.0)
-        self.assertTrue(test_board.start.row in range(test_board.rows) and test_board.start.col in range(test_board.cols))
+        self.assertTrue(test_board.start.coordinate.row in range(test_board.rows) and test_board.start.coordinate.col in range(test_board.cols))
     
     def test_end_in_range(self):
         test_board = Board(5, 4, 1.0)
-        self.assertTrue(test_board.end.row in range(test_board.rows) and test_board.end.col in range(test_board.cols))
+        self.assertTrue(test_board.end.coordinate.row in range(test_board.rows) and test_board.end.coordinate.col in range(test_board.cols))
     
     def test_fill_positions(self):
         rows, cols = (5, 3)

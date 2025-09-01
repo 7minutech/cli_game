@@ -14,15 +14,15 @@ class Board:
         self.end = None
         self.positions = []
         self.tiles = []
-        self.assign_start_end()
         self.fill_positions()
+        self.assign_start_end()
         self.create_neigbors()
     
     def assign_start_end(self):
-        self.start = Coordinate((random.choice(range(self.rows)), random.choice(range(self.cols))))
-        self.end = Coordinate((random.choice(range(self.rows)), random.choice(range(self.cols))))
+        self.start = self.positions[(random.choice(range(self.rows)))][random.choice(range(self.cols))]
+        self.end = self.positions[(random.choice(range(self.rows)))][random.choice(range(self.cols))]
         while (self.end == self.start):
-            self.end = Coordinate((random.choice(range(self.rows)), random.choice(range(self.cols))))
+            self.end = self.positions[(random.choice(range(self.rows)))][random.choice(range(self.cols))]
     
     def fill_positions(self):
         for i in range(self.rows):

@@ -10,7 +10,7 @@ class Game:
         self.board = board
         self.player = player
         self.game_over = False
-        self.place_player(self.board.start)
+        self.place_player(self.board.start.coordinate)
     
     def place_player(self, position):
         if self.player.coordinate != None:
