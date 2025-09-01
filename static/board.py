@@ -68,9 +68,8 @@ class Board:
         target.remove_neighbors()
         self.positions[target.coord.row][target.coord.col] = None
 
-    def path_from_start_exists(self, target, queue=None, visited=None):
+    def path_exists(self, start, target, queue=None, visited=None):
         if queue is None and visited is None:
-            start = self.positions[self.start.row][self.start.col]
             queue = [start]
             visited = []
         current_tile = queue[0]
@@ -82,7 +81,7 @@ class Board:
         visited.append(queue.pop(0))
         if len(queue) == 0:
             return False
-        return self.path_from_start_exists(target, queue, visited)
+        return self.path_exists(target, start, queue, visited)
         
 
 
