@@ -3,6 +3,8 @@ from static.tile import Tile
 from static.coordinate import Coordinate
 from constants.direction import *
 import pdb
+from constants.chaos import *
+from helpers.chance_hit import hit_roll
 
 class Board:
 
@@ -81,7 +83,14 @@ class Board:
         visited.append(queue.pop(0))
         if len(queue) == 0:
             return False
-        return self.path_exists(target, start, queue, visited)
-        
+        return self.path_exists(start, target, queue, visited)
+
+    def removable_tile(self, tile):
+        tile_neighbors = tile.neighbors.copy()
+        tile.remove_neighbors()
+        for neighbor in tile_neighbors:
+            if not self.path_exists(self.start, neighbor):
+                return False
+        return True
 
 

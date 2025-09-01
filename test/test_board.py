@@ -120,3 +120,27 @@ class TestBoard(unittest.TestCase):
             board.remove_tile(tile)
 
         self.assertTrue(board.path_exists(start, target))   
+    
+    def test_path_exists_true_close(self):
+        board = Board(3,3, 1.0)
+        start = board.positions[0][2]
+        target_tile = board.positions[0][1]
+        board.remove_tile(board.positions[1][0])
+        self.assertTrue(board.path_exists(start, target_tile))
+
+    def test_removable_tile_false(self):
+        board = Board(3,3, 1.0)
+        start = board.positions[0][2]
+        board.start = start
+        target_tile = board.positions[0][1]
+        board.remove_tile(board.positions[1][0])
+        self.assertFalse(board.removable_tile(target_tile))
+    
+    def test_removable_tile_true(self):
+        board = Board(3,3, 1.0)
+        start = board.positions[0][2]
+        board.start = start
+        target_tile = board.positions[0][0]
+        board.remove_tile(board.positions[1][0])
+        self.assertTrue(board.removable_tile(target_tile))
+
