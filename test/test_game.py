@@ -4,7 +4,9 @@ from unittest.mock import patch
 from static.game import Game
 from static.board import Board
 from active.player import Player
+from active.monster import Monster
 from static.coordinate import Coordinate
+from constants.monster import MAX_AGGRO
 from pynput.keyboard import Key
 import pdb
 
@@ -76,4 +78,15 @@ class TestGame(unittest.TestCase):
             my_game.move_checked(Key.down)
             output = mock_stdout.getvalue()
             self.assertNotEqual(output, invalid_message)
+    
+    def test_move_monster_with_max_aggro(self):
+        my_game = Game(Board(1, 3, 1.0), Player(), Monster(aggro=MAX_AGGRO))
+        start = Coordinate(0,2)
+        end = Coordinate(0,0)
+        my_game.place(my_game.player, start)
+        my_game.place(my_game.monster, end)
+        my_game.move_monster()
+        self.assertTrue(my_game.board.positions[0][1].owner == my_game.monster)
+
+
 

@@ -1,17 +1,19 @@
 from static.board import Board
 from active.player import Player
+from active.monster import Monster
 from pynput.keyboard import Key, Listener
 from constants.direction import *
 import pdb
 
 class Game:
 
-    def __init__(self, board=Board(5, 5, 1.0), player=Player()):
+    def __init__(self, board=Board(5, 5, 1.0), player=Player(), monster=Monster()):
         self.board = board
         self.player = player
         self.game_over = False
         self.place(self.player, self.board.start.coord)
         self.player_turn = True
+        self.monster = monster
     
     def place(self, entity, position):
         if entity.coord != None:
