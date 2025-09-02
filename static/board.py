@@ -4,7 +4,7 @@ from static.coordinate import Coordinate
 from constants.direction import *
 import pdb
 from constants.chaos import *
-from helpers.helpers import hit_roll
+from helpers.helpers import hit_roll, path_exists
 
 class Board:
 
@@ -70,35 +70,19 @@ class Board:
         target.remove_neighbors()
         self.positions[target.coord.row][target.coord.col] = None
 
-    def path_exists(self, start, target, queue=None, visited=None):
-        if queue is None and visited is None:
-            queue = [start]
-            visited = []
-        current_tile = queue[0]
-        if current_tile == target:
-            return True
-        for neighbor in current_tile.neighbors:
-            if neighbor not in visited and neighbor not in queue:
-                queue.append(neighbor)
-        visited.append(queue.pop(0))
-        if len(queue) == 0:
-            return False
-        return self.path_exists(start, target, queue, visited)
-
     def removable_tile(self, tile):
         if tile == self.start or tile == self.end or self.start in tile.neighbors or self.end in tile.neighbors:
             return False
         tile_neighbors = tile.neighbors.copy()
         tile.remove_neighbors()
-        if not self.path_exists(self.start, self.end):
+        if not path_exists(self, self.start, self.end):
             tile.reconnect_neighbors(tile_neighbors)
             return False
         for neighbor in tile_neighbors:
-            if not self.path_exists(self.start, neighbor) and not self.path_exists(self.end, neighbor):
+            if not path_exists(self, self.start, neighbor) and not self.path_exists(self.end, neighbor):
                 tile.reconnect_neighbors(tile_neighbors)
                 return False
         return True
-
 
     def remove_random_tiles(self):
         chances = (self.rows * self.cols)
@@ -106,7 +90,7 @@ class Board:
             selected_tile = random.choice(self.tiles)
             if hit_roll(REMOVAL_BASE_CHANCE) and self.removable_tile(selected_tile):
                 self.remove_tile(selected_tile)
-                if not (self.path_exists(self.start, self.end)):
+                if not (path_exists(self, self.start, self.end)):
                     pdb.set_trace()
         
         
