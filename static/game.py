@@ -10,27 +10,28 @@ class Game:
         self.board = board
         self.player = player
         self.game_over = False
-        self.place_player(self.board.start.coord)
+        self.place(self.player, self.board.start.coord)
+        self.player_turn = True
     
-    def place_player(self, position):
-        if self.player.coord != None:
-            self.board.positions[self.player.coord.row][self.player.coord.col].owner = None
-        self.board.positions[position.row][position.col].owner = self.player
-        self.player.coord = position
+    def place(self, entity, position):
+        if entity.coord != None:
+            self.board.positions[entity.coord.row][entity.coord.col].owner = None
+        self.board.positions[position.row][position.col].owner = entity
+        entity.coord = position
     
     def move(self, key):
 
         if key == Key.right:
-            self.place_player(self.player.coord + RIGHT)
+            self.place(self.player, self.player.coord + RIGHT)
         
         if key == Key.left:
-            self.place_player(self.player.coord + LEFT)
+            self.place(self.player, self.player.coord + LEFT)
         
         if key == Key.up:
-            self.place_player(self.player.coord + UP)
+            self.place(self.player, self.player.coord + UP)
         
         if key == Key.down:
-            self.place_player(self.player.coord + DOWN)
+            self.place(self.player, self.player.coord + DOWN)
         
         if key == Key.esc:
             quit()
@@ -57,10 +58,11 @@ class Game:
         return (new_coord.row in range(self.board.rows) and new_coord.col in range(self.board.cols))
 
     def move_checked(self, key):
-        if self.valid_move(key):
-            self.move(key)   
-        else:
-            print("\nInvalid move")
+        if self.player_turn:
+            if self.valid_move(key):
+                self.move(key)   
+            else:
+                print("\nInvalid move")
 
     def play_game(self):
         self.board.display()
