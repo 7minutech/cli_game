@@ -4,7 +4,7 @@ from static.coordinate import Coordinate
 from constants.direction import *
 import pdb
 from constants.chaos import *
-from helpers.chance_hit import hit_roll
+from helpers.helpers import hit_roll
 
 class Board:
 
@@ -86,11 +86,29 @@ class Board:
         return self.path_exists(start, target, queue, visited)
 
     def removable_tile(self, tile):
+        if tile == self.start or tile == self.end or self.start in tile.neighbors or self.end in tile.neighbors:
+            return False
         tile_neighbors = tile.neighbors.copy()
         tile.remove_neighbors()
+        if not self.path_exists(self.start, self.end):
+            tile.reconnect_neighbors(tile_neighbors)
+            return False
         for neighbor in tile_neighbors:
-            if not self.path_exists(self.start, neighbor):
+            if not self.path_exists(self.start, neighbor) and not self.path_exists(self.end, neighbor):
+                tile.reconnect_neighbors(tile_neighbors)
                 return False
         return True
+
+
+    def remove_random_tiles(self):
+        chances = (self.rows * self.cols)
+        for i in range(chances):
+            selected_tile = random.choice(self.tiles)
+            if hit_roll(REMOVAL_BASE_CHANCE) and self.removable_tile(selected_tile):
+                self.remove_tile(selected_tile)
+                if not (self.path_exists(self.start, self.end)):
+                    pdb.set_trace()
+        
+        
 
 
