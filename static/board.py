@@ -96,8 +96,3 @@ class Board:
             selected_tile = random.choice(self.tiles)
             if hit_roll(REMOVAL_BASE_CHANCE) and self.removable_tile(selected_tile):
                 self.remove_tile(selected_tile)
-                if not (path_exists(self, self.start, self.end)):
-        
-        
-
-
