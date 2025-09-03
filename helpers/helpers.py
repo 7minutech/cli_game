@@ -19,24 +19,35 @@ def path_exists(board, start, target, queue=None, visited=None):
         visited.append(queue.pop(0))
         if len(queue) == 0:
             return False
-        return path_exists(board, start, target, queue, visited)
+        return path_exists(board, start, target, queue, visited)\
 
-def shortest_path_start(start, target, queue=None, visited=None):
+def shortest_path_start(start, target):
+    return shortest_path(start, target)
+
+
+def shortest_path(start, target, queue=None, visited=None, parent_map=None):
     if queue is None:
         queue = [start]
-        path = {}
-        visited = []
-    if start == target:
-        return path[1]
-    current_tile = queue.pop(0)
-    visited.append(current_tile)
-    for neighbor in current_tile.neighbors:
-        if neighbor not in visited and neighbor not in queue:
-            queue.append(neighbor)
-            path[neighbor] = current_tile
-    shortest_path_start(queue[0], target, queue, visited)
+        visited = set()
+        parent_map = {start: None}
 
-def find_parent(start, target, parent_map):
+    if not queue:
+        return None
+    
+    current_tile = queue.pop(0)
+    visited.add(current_tile)
+
+    if current_tile == target:
+        return(path(start, target, parent_map))
+    
+    for neighbor in current_tile.neighbors:
+        if neighbor not in visited and neighbor not in queue: 
+            queue.append(neighbor)
+            parent_map[neighbor] = current_tile 
+    
+    return shortest_path(start, target, queue, visited, parent_map)
+
+def path(start, target, parent_map):
     path = [target]
     parent = parent_map[target]
     while parent != start:
