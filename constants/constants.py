@@ -6,6 +6,6 @@ UP = Coordinate((-1, 0))
 DOWN = Coordinate((1, 0))
 
 REMOVAL_BASE_CHANCE = 0.25
-MAX_CHAOS = 4.0
+MAX_CHAOS = 4
 
 MAX_AGGRO = 4

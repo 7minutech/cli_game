@@ -4,10 +4,17 @@ from static.coordinate import Coordinate
 from constants.constants import RIGHT, LEFT, UP, DOWN, REMOVAL_BASE_CHANCE
 import pdb
 from helpers.helpers import hit_roll, path_exists
+from enum import Enum
+
+class ChaosLevel(Enum):
+    SUBTLE = 1,
+    NOTICEABLE = 2,
+    INTENSE = 3,
+    EXTEREME = 4
 
 class Board:
 
-    def __init__(self, rows, cols, chaos):
+    def __init__(self, rows, cols, chaos=ChaosLevel.SUBTLE):
         self.rows = rows
         self.cols = cols
         self.chaos = chaos
@@ -90,7 +97,6 @@ class Board:
             if hit_roll(REMOVAL_BASE_CHANCE) and self.removable_tile(selected_tile):
                 self.remove_tile(selected_tile)
                 if not (path_exists(self, self.start, self.end)):
-                    pdb.set_trace()
         
         
 
