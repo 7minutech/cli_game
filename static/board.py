@@ -1,9 +1,8 @@
 import random
 from static.tile import Tile
 from static.coordinate import Coordinate
-from constants.direction import *
+from constants.constants import RIGHT, LEFT, UP, DOWN, REMOVAL_BASE_CHANCE
 import pdb
-from constants.chaos import *
 from helpers.helpers import hit_roll, path_exists
 
 class Board:

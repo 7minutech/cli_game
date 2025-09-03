@@ -2,7 +2,7 @@ from static.board import Board
 from active.player import Player
 from active.monster import Monster
 from pynput.keyboard import Key, Listener
-from constants.direction import *
+from constants.constants import RIGHT, LEFT, UP, DOWN
 import pdb
 
 class Game:
