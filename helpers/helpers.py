@@ -22,6 +22,8 @@ def path_exists(board, start, target, queue=None, visited=None):
         return path_exists(board, start, target, queue, visited)\
 
 def shortest_path_start(start, target):
+    if shortest_path(start, target) is None:
+        return None
     return shortest_path(start, target)[1]
 
 def shortest_path(start, target, queue=None, visited=None, parent_map=None):
