@@ -3,6 +3,7 @@ from active.player import Player
 from active.monster import Monster
 from pynput.keyboard import Key, Listener
 from constants.constants import RIGHT, LEFT, UP, DOWN
+from helpers.helpers import shortest_path_start
 import pdb
 
 class Game:
@@ -18,8 +19,10 @@ class Game:
     def place(self, entity, position):
         if entity.coord != None:
             self.board.positions[entity.coord.row][entity.coord.col].owner = None
-        self.board.positions[position.row][position.col].owner = entity
+        tile = self.board.positions[position.row][position.col]
+        tile.owner = entity
         entity.coord = position
+        entity.tile = tile
     
     def move(self, key):
 
@@ -39,6 +42,7 @@ class Game:
             quit()
         
         self.board.display()
+
 
     def valid_move(self, key):
         new_coord = None
