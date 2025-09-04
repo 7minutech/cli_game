@@ -22,8 +22,7 @@ def path_exists(board, start, target, queue=None, visited=None):
         return path_exists(board, start, target, queue, visited)\
 
 def shortest_path_start(start, target):
-    return shortest_path(start, target)
-
+    return shortest_path(start, target)[1]
 
 def shortest_path(start, target, queue=None, visited=None, parent_map=None):
     if queue is None:
@@ -48,9 +47,11 @@ def shortest_path(start, target, queue=None, visited=None, parent_map=None):
     return shortest_path(start, target, queue, visited, parent_map)
 
 def path(start, target, parent_map):
+    if start == target:
+        return None
     path = [target]
     parent = parent_map[target]
-    while parent != start:
+    while parent != start and parent is not None:
         path.append(parent)
         parent = parent_map[parent]
     path += [parent]

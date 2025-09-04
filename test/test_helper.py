@@ -10,6 +10,13 @@ class TestHelper(unittest.TestCase):
         target = my_board.positions[0][2]
         middle = my_board.positions[0][1]
         self.assertEqual(shortest_path_start(start, target), middle)
+    
+    def shortest_path_start_3x3(self):
+        my_board = Board(2, 3)
+        start = my_board.positions[0][0]
+        target = my_board.positions[0][2]
+        middle = my_board.positions[0][1]
+        self.assertEqual(shortest_path_start(start, target), middle)
 
     def test_shortest_path_3x3(self):
         my_board = Board(2, 3)
@@ -34,6 +41,12 @@ class TestHelper(unittest.TestCase):
         middle = my_board.positions[0][1]
         expected = [start, middle, target]
         self.assertListEqual(shortest_path(start, target), expected)
+    
+    def test_shortest_path_start_is_end(self):
+        my_board = Board(1, 3)
+        start = my_board.positions[0][0]
+        target = my_board.positions[0][0]
+        self.assertIsNone(shortest_path(start, target))
 
     def test_path(self):
         parent_map = {
