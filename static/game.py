@@ -3,7 +3,7 @@ from active.player import Player
 from active.monster import Monster
 from pynput.keyboard import Key, Listener
 from constants.constants import RIGHT, LEFT, UP, DOWN
-from helpers.helpers import shortest_path_start, furthest_coord
+from helpers.helpers import furthest_coord
 import pdb
 
 class Game:
@@ -31,7 +31,7 @@ class Game:
             self.place(self.player, self.player.coord + RIGHT)
         
         if key == Key.left:
-            self.place(self.player, self.player.coord + LEFT)q
+            self.place(self.player, self.player.coord + LEFT)
         
         if key == Key.up:
             self.place(self.player, self.player.coord + UP)
@@ -77,6 +77,10 @@ class Game:
     
     def contacted_monster(self, position):
         return self.board.positions[position.row][position.col].owner is not None
+    
+    def place_monster(self):
+        self.place(self.monster, self.monster.move())
+
     
     def game_over(self):
         print("Game is over")
