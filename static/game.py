@@ -22,6 +22,9 @@ class Game:
             self.game_over()
         if self.contacted_monster(position):
             self.game_over()
+        if type(entity) is Player and self.board.end.coord == position:
+            self.game_active = False
+            print("You escaped!")
         if self.game_active:
             if entity.coord != None:
                 self.board.positions[entity.coord.row][entity.coord.col].owner = None
@@ -69,7 +72,7 @@ class Game:
             case _:
                 return False
     
-        return (new_coord.row in range(self.board.rows) and new_coord.col in range(self.board.cols))
+        return (new_coord.row in range(self.board.rows) and new_coord.col in range(self.board.cols)) and self.board.positions[new_coord.row][new_coord.col] is not None
 
     def move_checked(self, key):
         if self.player_turn:
@@ -87,7 +90,10 @@ class Game:
     def contacted_monster(self, position):
         if position is None:
             return True
-        return self.board.positions[position.row][position.col].owner is not None
+        tile = self.board.positions[position.row][position.col]
+        if tile is None:
+            return False
+        return tile.owner is not None
     
     def remove_ping(self, last_monster_tile):
         if self.monster.tile is not None:
@@ -101,6 +107,7 @@ class Game:
     
     def game_over(self):
         self.game_active = False
+        self.game_over_message()
 
     def play_once(self):
         self.playing = True
@@ -129,11 +136,18 @@ class Game:
         if response == "n":
             self.playing = False
         
+    def change_board(self):
+        new_board = Board(rows=(random.randint(3,6)),cols=(random.randint(3,6)))
+        new_board.remove_random_tiles()
+        self.board = new_board
+    
     def play_game(self):
         self.play_once()
-        self.game_over_message()
         self.retry()
         while self.playing:
+            self.player.reset()
+            self.monster.reset()
+            self.change_board()
             self.play_once()
             self.game_over_message()
             self.retry()

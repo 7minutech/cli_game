@@ -68,10 +68,11 @@ def furthest_coord(coord, tiles):
     max_distance = float("-inf")
     furthest_coord = None
     for tile in tiles:
-        distance = coord_distance(coord, tile.coord)
-        if max_distance < distance:
-            max_distance = distance
-            furthest_coord = tile.coord
+        if tile.neighbors:
+            distance = coord_distance(coord, tile.coord)
+            if max_distance < distance:
+                max_distance = distance
+                furthest_coord = tile.coord
     if furthest_coord == coord:
         return None
     return furthest_coord

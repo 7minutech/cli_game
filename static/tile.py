@@ -12,10 +12,13 @@ class Tile:
             self.neighbors = neighbors
         self.owner = owner
         self.pinged = False
+        self.exit = False
     
     def __str__(self):
         if self.pinged:
             return(Back.RED + f"\u2395" + Style.RESET_ALL)
+        if self.exit:
+            return(Back.GREEN + f"\u2395" + Style.RESET_ALL)
         if type(self.owner) is Player:
             return(f"\u2302")
         if type(self.owner) is Monster and not self.owner.invisible:

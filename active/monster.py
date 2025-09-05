@@ -23,6 +23,10 @@ class Monster:
         rand_tile = random.choice(self.tile.neighbors)
         return rand_tile.coord
     
+    def reset(self):
+        self.tile = None
+        self.coord = None 
+    
     def move(self, player_tile):
         if shortest_path_start(self.tile, player_tile) is None:
             return None

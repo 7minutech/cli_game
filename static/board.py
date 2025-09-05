@@ -25,6 +25,7 @@ class Board:
         self.fill_positions()
         self.assign_start_end()
         self.create_neigbors()
+        self.end.exit = True
     
     def assign_start_end(self):
         self.start = self.positions[(random.choice(range(self.rows)))][random.choice(range(self.cols))]
