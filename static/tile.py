@@ -1,5 +1,6 @@
 from active.player import Player
 import pdb
+from active.monster import Monster
 
 class Tile:
     
@@ -16,6 +17,8 @@ class Tile:
             return(f"\u2395")
         if type(self.owner) is Player:
             return(f"\u2302")
+        if type(self.owner) is Monster:
+            return(f"\u2622")
     
     def __repr__(self):
         return(f"Tile(coordinate:{self.coord}, owner:{self.owner})")
