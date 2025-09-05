@@ -7,6 +7,7 @@ from active.player import Player
 from active.monster import Monster
 from static.coordinate import Coordinate
 from constants.constants import MAX_AGGRO
+from helpers.helpers import furthest_coord
 from pynput.keyboard import Key
 import pdb
 
@@ -78,4 +79,11 @@ class TestGame(unittest.TestCase):
             my_game.move_checked(Key.down)
             output = mock_stdout.getvalue()
             self.assertNotEqual(output, invalid_message)
+    
+    def test_initial_monster_placement(self):
+        my_game = Game(Board(3,3), Player(), Monster())
+        my_game.place_entities_start()
+        monster_start_coord = furthest_coord(my_game.board.start.coord, my_game.board.tiles)
+        self.assertEqual(my_game.board.positions[monster_start_coord.row][monster_start_coord.col].owner, my_game.monster)
+
 
