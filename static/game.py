@@ -8,7 +8,7 @@ import pdb
 
 class Game:
 
-    def __init__(self, board=Board(5, 5, 1.0), player=Player(), monster=Monster(invisible=False)):
+    def __init__(self, board=Board(5, 5, 1.0), player=Player(), monster=Monster(invisible=True)):
         self.board = board
         self.player = player
         self.game_over = False
@@ -41,9 +41,11 @@ class Game:
         
         if key == Key.esc:
             quit()
-        self.place_monster()
+        
+        if self.monster.tile is not None:
+            self.place_monster()
         self.board.display()
-
+        self.remove_ping(self.monster.tile)
 
     def valid_move(self, key):
         new_coord = None
@@ -78,7 +80,13 @@ class Game:
     def contacted_monster(self, position):
         return self.board.positions[position.row][position.col].owner is not None
     
+    def remove_ping(self, last_monster_tile):
+        if self.monster.tile is not None:
+            last_monster_tile.pinged = False
+    
     def place_monster(self):
+        if self.monster.tile is not None:
+            self.monster.tile.pinged = True
         self.place(self.monster, self.monster.move(self.player.tile))
 
     

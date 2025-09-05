@@ -1,7 +1,7 @@
 from active.player import Player
 import pdb
 from active.monster import Monster
-
+from colorama import Back, Style
 class Tile:
     
     def __init__(self, coord, neighbors=None, owner=None):
@@ -11,8 +11,11 @@ class Tile:
         else:
             self.neighbors = neighbors
         self.owner = owner
+        self.pinged = False
     
     def __str__(self):
+        if self.pinged:
+            return(Back.RED + f"\u2395" + Style.RESET_ALL)
         if type(self.owner) is Player:
             return(f"\u2302")
         if type(self.owner) is Monster and not self.owner.invisible:
