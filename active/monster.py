@@ -2,6 +2,7 @@ from enum import Enum
 from helpers.helpers import shortest_path_start, hit_roll
 from constants.constants import MILD_MOVE_CHANCE, MODERATE_MOVE_CHANCE, STRONG_MOVE_CHANCE, EXTERME_MOVE_CHANCE
 import random
+import pdb
 
 class AggroLevel(Enum):
     MILD = 1
@@ -18,7 +19,7 @@ class Monster:
         self.tile = None
     
     def random_move(self):
-        rand_tile = random.choices(self.tile.neighborss)
+        rand_tile = random.choice(self.tile.neighbors)
         return rand_tile.coord
     
     def move(self, player_tile):
@@ -28,18 +29,19 @@ class Monster:
             case AggroLevel.MILD:
                 if (hit_roll(MILD_MOVE_CHANCE)):
                     return shortest_path_start(self.tile, player_tile).coord
-                return self.random_move
+                return self.random_move()
             case AggroLevel.MODERATE:
                 if (hit_roll(MODERATE_MOVE_CHANCE)):
                     return shortest_path_start(self.tile, player_tile).coord
-                return self.random_move
+                return self.random_move()
             case AggroLevel.STRONG:
                 if (hit_roll(STRONG_MOVE_CHANCE)):
                     return shortest_path_start(self.tile, player_tile).coord
-                return self.random_move
+                return self.random_move()
             case AggroLevel.EXTREME:
                 if (hit_roll(EXTERME_MOVE_CHANCE)):
                     return shortest_path_start(self.tile, player_tile).coord
-                return self.random_move
+                return self.random_move()
             case _:
                 raise Exception("Monster must have an AggroLevel")
+        
