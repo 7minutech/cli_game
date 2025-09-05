@@ -85,7 +85,7 @@ class Board:
             tile.reconnect_neighbors(tile_neighbors)
             return False
         for neighbor in tile_neighbors:
-            if not path_exists(self, self.start, neighbor) and not self.path_exists(self.end, neighbor):
+            if not path_exists(self, self.start, neighbor) and not path_exists(self, self.end, neighbor):
                 tile.reconnect_neighbors(tile_neighbors)
                 return False
         return True

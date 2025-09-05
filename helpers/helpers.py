@@ -64,6 +64,20 @@ def path(start, target, parent_map):
 def coord_distance(coord_1, coord_2):
     return((math.pow((coord_1.row - coord_2.row), 2) + math.pow((coord_1.col - coord_2.col), 2)))
 
+def furthest_coord(coord, tiles):
+    max_distance = float("-inf")
+    furthest_coord = None
+    for tile in tiles:
+        distance = coord_distance(coord, tile.coord)
+        if max_distance < distance:
+            max_distance = distance
+            furthest_coord = tile.coord
+    if furthest_coord == coord:
+        return None
+    return furthest_coord
+
+
+
     
 
     

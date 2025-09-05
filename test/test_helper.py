@@ -1,6 +1,6 @@
 import unittest
 from static.board import Board
-from helpers.helpers import shortest_path, path, shortest_path_start, coord_distance
+from helpers.helpers import *
 from static.coordinate import Coordinate
 
 class TestHelper(unittest.TestCase):
@@ -58,15 +58,25 @@ class TestHelper(unittest.TestCase):
         }
         self.assertListEqual(path("A", "E", parent_map), ["A", "B", "D", "E"])
     
-    def test_coord_distance_3x3(self):
+    def test_coord_distance_longer(self):
         coord_1 = Coordinate((0,0))
         coord_2 = Coordinate((3,3))
         self.assertEqual(coord_distance(coord_1, coord_2), 18)
     
-    def test_coord_distance_2x3(self):
+    def test_coord_distance_shorter(self):
         coord_1 = Coordinate((1,1))
         coord_2 = Coordinate((2,2))
         self.assertEqual(coord_distance(coord_1, coord_2), 2)
+    
+    def test_furthest_coord_longer(self):
+        my_board = Board(3,3)
+        start = Coordinate((0,0))
+        self.assertEqual(furthest_coord(start, my_board.tiles), Coordinate((2,2)))
+    
+    def test_furthest_coord_shorter(self):
+        my_board = Board(2,2)
+        start = Coordinate((0,0))
+        self.assertEqual(furthest_coord(start, my_board.tiles), Coordinate((1,1)))
 
 
 
