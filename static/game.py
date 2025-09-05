@@ -9,22 +9,24 @@ import pdb
 
 class Game:
 
-    def __init__(self, board=Board(5, 5, 1.0), player=Player(), monster=Monster(invisible=True)):
+    def __init__(self, board=Board(5, 5, 1.0), player=Player(), monster=Monster()):
         self.board = board
         self.player = player
         self.game_active = False
         self.player_turn = True
         self.monster = monster
         self.playing = True
+        self.escapes = 0
     
     def place(self, entity, position):
-        if position is None:
-            self.game_over()
-        if self.contacted_monster(position):
-            self.game_over()
         if type(entity) is Player and self.board.end.coord == position:
             self.game_active = False
+            self.escapes += 1
             print("You escaped!")
+        elif type(entity) is Monster and self.player.coord == position:
+            self.game_over()
+        elif type(entity) is Player and self.monster.coord == position:
+            self.game_over()
         if self.game_active:
             if entity.coord != None:
                 self.board.positions[entity.coord.row][entity.coord.col].owner = None
@@ -53,6 +55,7 @@ class Game:
         last_monster_tile = self.monster.tile
         if self.monster.tile is not None:
             self.place_monster()
+        print(f"Escapes in a row: {self.escapes}")
         self.board.display()
         self.remove_ping(last_monster_tile)
 
@@ -100,9 +103,10 @@ class Game:
             last_monster_tile.pinged = False
     
     def place_monster(self):
-        if self.monster.tile is not None:
-            self.monster.tile.pinged = True
-        self.place(self.monster, self.monster.move(self.player.tile))
+        if self.game_active:
+            if self.monster.tile is not None:
+                self.monster.tile.pinged = True
+            self.place(self.monster, self.monster.move(self.player.tile))
 
     
     def game_over(self):
@@ -113,6 +117,7 @@ class Game:
         self.playing = True
         self.game_active = True
         self.place_entities_start()
+        print(f"Escapes in a row: {self.escapes}")
         self.board.display()
 
         def on_press(key):
@@ -125,12 +130,13 @@ class Game:
         listener.join()
 
     def game_over_message(self):
+        self.escapes = 0
         print("\n\n\nThe monster caught you")
     
     def retry(self):
         response = (input("Play again? (y/n): ").lower())[-1]
         valid_responses = ["y", "n"]
-        while response not in valid_responses:
+        while response not in valid_responses and len(response) < 1:
             print("Invalid answer")
             response = input("Play again? (y/n): ")
         if response == "n":
@@ -149,7 +155,6 @@ class Game:
             self.monster.reset()
             self.change_board()
             self.play_once()
-            self.game_over_message()
             self.retry()
         print("\n\n\nexiting...")
             
