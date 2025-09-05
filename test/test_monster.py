@@ -17,4 +17,23 @@ class TestMonster(unittest.TestCase):
         my_game.place(my_game.player, Coordinate((0,0)))
         my_game.place(my_game.monster, Coordinate((0,0)))
         self.assertIsNone(my_game.monster.move(my_game.player.tile))
+    
+    def test_contacted_monster_player(self):
+        my_game = Game(Board(1, 3), Monster(always_chase=True))
+        my_game.place(my_game.player, Coordinate((0,0)))
+        my_game.place(my_game.monster, Coordinate((0,2)))
+        self.assertTrue(my_game.contacted_monster(Coordinate((0,2))))
+    
+    def test_contacted_monster_monster(self):
+        my_game = Game(Board(1, 3), Monster(always_chase=True))
+        my_game.place(my_game.player, Coordinate((0,0)))
+        my_game.place(my_game.monster, Coordinate((0,2)))
+        self.assertTrue(my_game.contacted_monster(Coordinate((0,0))))
+
+    def test_contacted_monster_false(self):
+        my_game = Game(Board(1, 3), Monster(always_chase=True))
+        my_game.place(my_game.player, Coordinate((0,0)))
+        my_game.place(my_game.monster, Coordinate((0,2)))
+        self.assertFalse(my_game.contacted_monster(Coordinate((0,1))))
+
 

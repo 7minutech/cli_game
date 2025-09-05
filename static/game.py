@@ -16,6 +16,8 @@ class Game:
         self.monster = monster
     
     def place(self, entity, position):
+        if self.contacted_monster(position):
+            print("game over")
         if entity.coord != None:
             self.board.positions[entity.coord.row][entity.coord.col].owner = None
         tile = self.board.positions[position.row][position.col]
@@ -29,7 +31,7 @@ class Game:
             self.place(self.player, self.player.coord + RIGHT)
         
         if key == Key.left:
-            self.place(self.player, self.player.coord + LEFT)
+            self.place(self.player, self.player.coord + LEFT)q
         
         if key == Key.up:
             self.place(self.player, self.player.coord + UP)
@@ -72,9 +74,17 @@ class Game:
     def place_entities_start(self):
         self.place(self.player, self.board.start.coord)
         self.place(self.monster, furthest_coord(self.board.start.coord, self.board.tiles))
+    
+    def contacted_monster(self, position):
+        return self.board.positions[position.row][position.col].owner is not None
+    
+    def game_over(self):
+        print("Game is over")
+
 
     def play_game(self):
         self.place_entities_start()
         self.board.display()
         with Listener(on_press = self.move_checked) as listener:
             listener.join()
+            
