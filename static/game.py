@@ -2,6 +2,7 @@ from static.board import Board
 from active.player import Player
 from active.monster import *
 from pynput.keyboard import Key, Listener
+from pynput import keyboard
 from constants.constants import RIGHT, LEFT, UP, DOWN
 from helpers.helpers import furthest_coord
 import pdb
@@ -11,19 +12,23 @@ class Game:
     def __init__(self, board=Board(5, 5, 1.0), player=Player(), monster=Monster(invisible=True)):
         self.board = board
         self.player = player
-        self.game_over = False
+        self.game_active = False
         self.player_turn = True
         self.monster = monster
+        self.playing = True
     
     def place(self, entity, position):
+        if position is None:
+            self.game_over()
         if self.contacted_monster(position):
-            print("game over")
-        if entity.coord != None:
-            self.board.positions[entity.coord.row][entity.coord.col].owner = None
-        tile = self.board.positions[position.row][position.col]
-        tile.owner = entity
-        entity.coord = position
-        entity.tile = tile
+            self.game_over()
+        if self.game_active:
+            if entity.coord != None:
+                self.board.positions[entity.coord.row][entity.coord.col].owner = None
+            tile = self.board.positions[position.row][position.col]
+            tile.owner = entity
+            entity.coord = position
+            entity.tile = tile
     
     def move(self, key):
 
@@ -41,35 +46,37 @@ class Game:
         
         if key == Key.esc:
             quit()
-        
+
+        last_monster_tile = self.monster.tile
         if self.monster.tile is not None:
             self.place_monster()
         self.board.display()
-        self.remove_ping(self.monster.tile)
+        self.remove_ping(last_monster_tile)
 
     def valid_move(self, key):
         new_coord = None
-        if key == Key.right:
-            new_coord = self.player.coord + RIGHT
-        
-        if key == Key.left:
-            new_coord = self.player.coord + LEFT
-
-        if key == Key.up:
-            new_coord = self.player.coord + UP
-
-        if key == Key.down:
-            new_coord = self.player.coord + DOWN
-
-        if key == Key.esc:
-            return True
-        
+        match (key):
+            case Key.right:
+                new_coord = self.player.coord + RIGHT
+            case Key.left:
+                new_coord = self.player.coord + LEFT
+            case Key.up:
+                new_coord = self.player.coord + UP
+            case Key.down:
+                new_coord = self.player.coord + DOWN
+            case Key.esc:
+                return True
+            case _:
+                return False
+    
         return (new_coord.row in range(self.board.rows) and new_coord.col in range(self.board.cols))
 
     def move_checked(self, key):
         if self.player_turn:
             if self.valid_move(key):
-                self.move(key)   
+                self.move(key)
+                if not self.game_active:
+                    return False
             else:
                 print("\nInvalid move")
     
@@ -78,6 +85,8 @@ class Game:
         self.place(self.monster, furthest_coord(self.board.start.coord, self.board.tiles))
     
     def contacted_monster(self, position):
+        if position is None:
+            return True
         return self.board.positions[position.row][position.col].owner is not None
     
     def remove_ping(self, last_monster_tile):
@@ -91,12 +100,42 @@ class Game:
 
     
     def game_over(self):
-        print("Game is over")
+        self.game_active = False
 
-
-    def play_game(self):
+    def play_once(self):
+        self.playing = True
+        self.game_active = True
         self.place_entities_start()
         self.board.display()
-        with Listener(on_press = self.move_checked) as listener:
-            listener.join()
+
+        def on_press(key):
+            self.move_checked(key)
+            if not self.game_active:
+                listener.stop()
+
+        listener = keyboard.Listener(on_press=on_press)
+        listener.start()
+        listener.join()
+
+    def game_over_message(self):
+        print("\n\n\nThe monster caught you")
+    
+    def retry(self):
+        response = (input("Play again? (y/n): ").lower())[-1]
+        valid_responses = ["y", "n"]
+        while response not in valid_responses:
+            print("Invalid answer")
+            response = input("Play again? (y/n): ")
+        if response == "n":
+            self.playing = False
+        
+    def play_game(self):
+        self.play_once()
+        self.game_over_message()
+        self.retry()
+        while self.playing:
+            self.play_once()
+            self.game_over_message()
+            self.retry()
+        print("\n\n\nexiting...")
             

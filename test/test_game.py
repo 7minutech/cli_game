@@ -85,5 +85,36 @@ class TestGame(unittest.TestCase):
         my_game.place_entities_start()
         monster_start_coord = furthest_coord(my_game.board.start.coord, my_game.board.tiles)
         self.assertEqual(my_game.board.positions[monster_start_coord.row][monster_start_coord.col].owner, my_game.monster)
+    
+    def test_place_monster_ping(self):
+        my_game = Game(Board(3,3), Player(), Monster())
+        my_game.place(my_game.player, Coordinate((0,0)))
+        my_game.place(my_game.monster, Coordinate((2,2)))
+        last_monster_tile = my_game.monster.tile
+        my_game.place_monster()
+        self.assertTrue(last_monster_tile.pinged)
+    
+    def test_remove_ping(self):
+        my_game = Game(Board(3,3), Player(), Monster())
+        my_game.place(my_game.player, Coordinate((0,0)))
+        my_game.place(my_game.monster, Coordinate((2,2)))
+        last_monster_tile = my_game.monster.tile
+        my_game.place_monster()
+        my_game.remove_ping(last_monster_tile)
+        self.assertFalse(last_monster_tile.pinged)
+    
+    def test_pings(self):
+        my_game = Game(Board(1,5), Player(), Monster(invisible=False, always_chase=True))
+        my_game.place(my_game.player, Coordinate((0,0)))
+        my_game.place(my_game.monster, Coordinate((0,4)))
+        monster_tile_1 = my_game.monster.tile
+        my_game.place_monster()
+        my_game.remove_ping(monster_tile_1)
+        monster_tile_2 = my_game.monster.tile
+        my_game.place_monster()
+        monster_tile_3 = my_game.monster.tile
+        self.assertFalse(monster_tile_1.pinged)
+        self.assertTrue(monster_tile_2.pinged)
+        self.assertFalse(monster_tile_3.pinged)
 
 

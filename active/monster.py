@@ -26,6 +26,8 @@ class Monster:
     def move(self, player_tile):
         if shortest_path_start(self.tile, player_tile) is None:
             return None
+        if self.always_chase:
+            return shortest_path_start(self.tile, player_tile).coord
         match (self.aggro):
             case AggroLevel.MILD:
                 if (hit_roll(MILD_MOVE_CHANCE)):
