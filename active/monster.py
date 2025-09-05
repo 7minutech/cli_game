@@ -12,11 +12,12 @@ class AggroLevel(Enum):
 
 class Monster:
 
-    def __init__(self, coord=None, aggro=AggroLevel.MILD, always_chase=False):
+    def __init__(self, coord=None, aggro=AggroLevel.MILD, always_chase=False, invisible=True):
         self.coord = coord
         self.aggro = aggro
         self.always_chase = always_chase
         self.tile = None
+        self.invisible = invisible
     
     def random_move(self):
         rand_tile = random.choice(self.tile.neighbors)

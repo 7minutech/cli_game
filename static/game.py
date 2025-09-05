@@ -1,6 +1,6 @@
 from static.board import Board
 from active.player import Player
-from active.monster import Monster
+from active.monster import *
 from pynput.keyboard import Key, Listener
 from constants.constants import RIGHT, LEFT, UP, DOWN
 from helpers.helpers import furthest_coord
@@ -8,7 +8,7 @@ import pdb
 
 class Game:
 
-    def __init__(self, board=Board(5, 5, 1.0), player=Player(), monster=Monster()):
+    def __init__(self, board=Board(5, 5, 1.0), player=Player(), monster=Monster(invisible=False)):
         self.board = board
         self.player = player
         self.game_over = False
@@ -41,7 +41,7 @@ class Game:
         
         if key == Key.esc:
             quit()
-        
+        self.place_monster()
         self.board.display()
 
 
@@ -79,7 +79,7 @@ class Game:
         return self.board.positions[position.row][position.col].owner is not None
     
     def place_monster(self):
-        self.place(self.monster, self.monster.move())
+        self.place(self.monster, self.monster.move(self.player.tile))
 
     
     def game_over(self):
