@@ -13,12 +13,11 @@ class Tile:
         self.owner = owner
     
     def __str__(self):
-        if self.owner is None:
-            return(f"\u2395")
         if type(self.owner) is Player:
             return(f"\u2302")
-        if type(self.owner) is Monster:
+        if type(self.owner) is Monster and not self.owner.invisible:
             return(f"\u2622")
+        return(f"\u2395")
     
     def __repr__(self):
         return(f"Tile(coordinate:{self.coord}, owner:{self.owner})")
