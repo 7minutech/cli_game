@@ -1,5 +1,6 @@
 import random
 import pdb
+import math
 
 def hit_roll(percentage):
     if percentage > 100.0:
@@ -59,6 +60,9 @@ def path(start, target, parent_map):
     path += [parent]
     path.reverse()
     return path
+
+def coord_distance(coord_1, coord_2):
+    return((math.pow((coord_1.row - coord_2.row), 2) + math.pow((coord_1.col - coord_2.col), 2)))
 
     
 
