@@ -3,7 +3,7 @@ from active.player import Player
 from active.monster import Monster
 from pynput.keyboard import Key, Listener
 from constants.constants import RIGHT, LEFT, UP, DOWN
-from helpers.helpers import shortest_path_start
+from helpers.helpers import shortest_path_start, furthest_coord
 import pdb
 
 class Game:
@@ -12,7 +12,6 @@ class Game:
         self.board = board
         self.player = player
         self.game_over = False
-        self.place(self.player, self.board.start.coord)
         self.player_turn = True
         self.monster = monster
     
@@ -69,8 +68,13 @@ class Game:
                 self.move(key)   
             else:
                 print("\nInvalid move")
+    
+    def place_entities_start(self):
+        self.place(self.player, self.board.start.coord)
+        self.place(self.monster, furthest_coord(self.board.start.coord, self.board.tiles))
 
     def play_game(self):
+        self.place_entities_start()
         self.board.display()
         with Listener(on_press = self.move_checked) as listener:
             listener.join()
