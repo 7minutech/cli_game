@@ -10,7 +10,7 @@ class ChaosLevel(Enum):
     SUBTLE = 1,
     NOTICEABLE = 2,
     INTENSE = 3,
-    EXTEREME = 4
+    EXTREME = 4
 
 class Board:
 

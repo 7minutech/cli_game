@@ -1,10 +1,11 @@
-from static.board import Board
+from static.board import Board, ChaosLevel
 from active.player import Player
 from active.monster import *
 from pynput.keyboard import Key, Listener
 from pynput import keyboard
 from constants.constants import RIGHT, LEFT, UP, DOWN
 from helpers.helpers import furthest_coord
+import questionary
 import pdb
 
 class Game:
@@ -17,11 +18,13 @@ class Game:
         self.monster = monster
         self.playing = True
         self.escapes = 0
+        self.player_escaped = False
     
     def place(self, entity, position):
         if type(entity) is Player and self.board.end.coord == position:
             self.game_active = False
             self.escapes += 1
+            self.player_escaped = True
             print("You escaped!")
         elif type(entity) is Monster and self.player.coord == position:
             self.game_over()
@@ -134,27 +137,91 @@ class Game:
         print("\n\n\nThe monster caught you")
     
     def retry(self):
-        response = (input("Play again? (y/n): ").lower())[-1]
-        valid_responses = ["y", "n"]
-        while response not in valid_responses and len(response) < 1:
-            print("Invalid answer")
-            response = input("Play again? (y/n): ")
-        if response == "n":
+        self.player_escaped = False
+        choice = questionary.select(
+            "\nPlay again?",
+            choices=["Yes", "No"],
+        ).ask()
+        if choice == "No":
             self.playing = False
         
     def change_board(self):
-        new_board = Board(rows=(random.randint(3,6)),cols=(random.randint(3,6)))
+        new_board = Board(rows=(random.randint(5,8)),cols=(random.randint(5,8)))
         new_board.remove_random_tiles()
         self.board = new_board
+
+    def board_chaos_selector(self):
+        choice = questionary.select(
+            "Play again?",
+            choices=["Yes", "No"],
+        ).ask()
+
+    def show_config(self):
+        choice = questionary.select(
+            "Want to change setttings (difficulty, map randomness)",
+            choices=["Yes", "No"],
+        ).ask()
+        if choice == "Yes":
+            return True
+        return False
+    
+    def configure_game(self):
+        aggro = questionary.select(
+            "Select Monster Chase Level",
+            choices=["Mild", "Moderate", "Strong", "Extreme"]
+        ).ask()
+        self.configure_monster_aggro(aggro)
+
+        board_randomness = questionary.select(
+            "Select Map Randomness",
+            choices=["Subtle", "Noticeable", "Intense", "Extreme"]
+        ).ask()
+        self.configure_board_randomness(board_randomness)
+
+
+    def configure_monster_aggro(self, aggro):
+        match aggro:
+            case "Mild":
+                self.monster.aggro = AggroLevel.MILD
+            case "Moderate":
+                self.monster.aggro = AggroLevel.MODERATE
+            case "Strong":
+                self.monster.aggro = AggroLevel.STRONG
+            case "Extreme":
+                self.monster.aggro = AggroLevel.EXTREME
+
+
+    def configure_board_randomness(self, board_randomness):
+        match board_randomness:
+            case "Subtle":
+                self.board.chaos = ChaosLevel.SUBTLE
+            case "Noticeable":
+                self.board.chaos = ChaosLevel.NOTICEABLE
+            case "Intense":
+                self.board.chaos = ChaosLevel.INTENSE
+            case "Extreme":
+                self.board.chaos = ChaosLevel.EXTREME
+
+
+    def intro_message(self):
+        print("This is a game where you reach the exit in green\nTry not to get caught by the monster " \
+        "whose last move is highlighted in red\nYou and the monster can only move up, down, left, right use the arrow keys to move" \
+        "\nPress esc to exit game at anytime")
     
     def play_game(self):
+        self.intro_message()
+        if self.show_config():
+            self.configure_game()
         self.play_once()
-        self.retry()
+        if not self.player_escaped:
+            self.retry()
         while self.playing:
+            self.player_escaped = False
             self.player.reset()
             self.monster.reset()
             self.change_board()
             self.play_once()
-            self.retry()
+            if not self.player_escaped:
+                self.retry()
         print("\n\n\nexiting...")
             
