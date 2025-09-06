@@ -30,7 +30,9 @@ class Game:
             self.game_over()
         elif type(entity) is Player and self.monster.coord == position:
             self.game_over()
-        if self.game_active:
+        elif position is None:
+            pass
+        if self.game_active and position != None:
             if entity.coord != None:
                 self.board.positions[entity.coord.row][entity.coord.col].owner = None
             tile = self.board.positions[position.row][position.col]
@@ -201,6 +203,7 @@ class Game:
                 self.board.chaos = ChaosLevel.INTENSE
             case "Extreme":
                 self.board.chaos = ChaosLevel.EXTREME
+        self.board.handle_chaos()
 
 
     def intro_message(self):

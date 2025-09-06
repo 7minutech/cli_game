@@ -1,7 +1,7 @@
 import random
 from static.tile import Tile
 from static.coordinate import Coordinate
-from constants.constants import RIGHT, LEFT, UP, DOWN, REMOVAL_BASE_CHANCE
+from constants.constants import RIGHT, LEFT, UP, DOWN, REMOVAL_SUBTLE_CHANCE, REMOVAL_NOTICEABLE_CHANCE, REMOVAL_INTENSE_CHANCE, REMOVAL_EXTREME_CHANCE
 import pdb
 from helpers.helpers import hit_roll, path_exists
 from enum import Enum
@@ -26,6 +26,7 @@ class Board:
         self.assign_start_end()
         self.create_neigbors()
         self.end.exit = True
+        self.chance = REMOVAL_SUBTLE_CHANCE
     
     def assign_start_end(self):
         self.start = self.positions[(random.choice(range(self.rows)))][random.choice(range(self.cols))]
@@ -91,9 +92,23 @@ class Board:
                 return False
         return True
 
+    def handle_chaos(self):
+        match self.chaos:
+            case ChaosLevel.SUBTLE:
+                self.chance = REMOVAL_SUBTLE_CHANCE
+            case ChaosLevel.NOTICEABLE:
+                self.chance = REMOVAL_NOTICEABLE_CHANCE
+            case ChaosLevel.INTENSE:
+                self.chance = REMOVAL_INTENSE_CHANCE
+            case ChaosLevel.EXTREME:
+                self.chance = REMOVAL_EXTREME_CHANCE
+            case _:
+                raise Exception("Chaos level not set")
+
+
     def remove_random_tiles(self):
         chances = (self.rows * self.cols)
         for i in range(chances):
             selected_tile = random.choice(self.tiles)
-            if hit_roll(REMOVAL_BASE_CHANCE) and self.removable_tile(selected_tile):
+            if self.removable_tile(selected_tile) and hit_roll(self.chance):
                 self.remove_tile(selected_tile)
